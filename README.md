@@ -1,5 +1,10 @@
 ## Optimizely Express Middleware
 
+### Installation
+```javascript
+npm install --save https://github.com/asaschachar/optimizely-express.git#master
+```
+
 ### Usage
 ```javascript
 var optimizely = require('optimizely-express');
