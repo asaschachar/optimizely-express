@@ -20,7 +20,7 @@ app.use('/checkout_flow',
     res.render('checkout_flow');
   }
 );
-
+ 
 app.use('/homepage', (req, res, next) => {
   const optimizely = req.optimizely.client
   const enabled = optimizely.isFeatureEnabled('homepage_demo', req.userId);
