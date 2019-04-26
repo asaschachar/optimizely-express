@@ -99,7 +99,7 @@ function webhookRoute(req, res, next) {
   }
   
   if (typeof(req.body) !== 'string') {
-    console.error(`Optimizely Webhook Route Error: Request body was not parsed as string for this route. Please update the route so that the req.body is parsed as a string. See README.md of Optimizely express middleware');
+    console.error(`Optimizely Webhook Route Error: Request body was not parsed as string for this route. Please update the route so that the req.body is parsed as a string. See README.md of Optimizely express middleware`);
     res.status(500).send('Optimizely Webhook request object not parsed as string. Unable to verify secure Webhook')
   }
 
