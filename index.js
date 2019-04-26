@@ -111,6 +111,7 @@ function webhookRoute(req, res, next) {
 
   if (computedSignature === requestSignature) {
     console.log('TODO implement datafile updating');
+    res.sendStatus(200)
   } else {
     res.status(500).send('Webhook payload determined not secure')
   }

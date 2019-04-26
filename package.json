@@ -1,6 +1,6 @@
 {
   "name": "optimizely-express",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Express middleware for Optimizely",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@optimizely/js-sdk-datafile-manager": "0.1.0",
+    "@optimizely/js-sdk-datafile-manager": "0.2.0",
     "@optimizely/optimizely-sdk": "^3.0.1"
   }
 }
