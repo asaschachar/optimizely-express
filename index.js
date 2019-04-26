@@ -95,27 +95,27 @@ function webhookRoute(req, res, next) {
   const WEBHOOK_SECRET = process.env.OPTIMIZELY_WEBHOOK_SECRET
 
   if (!WEBHOOK_SECRET) {
-    console.error('Webhook secret not found in environment variables, please set OPTIMIZELY_WEBHOOK_SECRET')
-    res.status(500).send('Webhook secret not found')
+    console.log('Webhook secret not found in environment variables, please set OPTIMIZELY_WEBHOOK_SECRET')
+    res.status(500)
+  }
+
+  if (typeof(req.body) !== 'string') {
+    console.log('Webhook secret could not be verified because body was not parsed as a string')
+    res.status(500)
   }
 
   const requestSignature = req.header('X-Hub-Signature')
-
-  console.log('Request Signature: ', requestSignature);
-  console.log('Webhook Secret: ', WEBHOOK_SECRET);
-
   const hmac = crypto.createHmac('sha1', WEBHOOK_SECRET)
-  console.log('Request Body: ', req.body)
-  console.log('Request Body Type: ', typeof(req.body))
   const webhookDigest = hmac.update(req.body).digest('hex')
   const computedSignature = `sha1=${webhookDigest}`
 
+  console.log('Request Signature: ', requestSignature);
   console.log('Computed Signature: ', computedSignature);
+
   if (computedSignature !== requestSignature) {
     res.status(500).send('Webhook payload determined not secure')
   } else {
-    // Update Datafile
-    console.log('TODO implement datafile updating');
+    console.log('DATAFILE UPDATE SECURE WEBHOOK RECIEVED');
   }
 }
 
