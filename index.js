@@ -20,6 +20,8 @@
 
 const OptimizelySdk = require('@optimizely/optimizely-sdk');
 const { DatafileManager } = require('@optimizely/js-sdk-datafile-manager');
+const crypto = require('crypto');
+const bodyParser = require('body-parser')
 
 
 /**
@@ -93,28 +95,27 @@ function webhookRoute(req, res, next) {
   const WEBHOOK_SECRET = process.env.OPTIMIZELY_WEBHOOK_SECRET
 
   if (!WEBHOOK_SECRET) {
-    console.log('Webhook secret not found in environment variables, please set OPTIMIZELY_WEBHOOK_SECRET')
+    console.error('Webhook secret not found in environment variables, please set OPTIMIZELY_WEBHOOK_SECRET')
     res.status(500).send('Webhook secret not found')
   }
 
-  /*
-  if (typeof(req.body) !== 'string') {
-    console.log(`Optimizely Webhook Route Error: Request body was not parsed as string for this route. Please update the route so that the req.body is parsed as a string. See README.md of Optimizely express middleware`);
-    res.status(500).send('Optimizely Webhook request object not parsed as string. Unable to verify secure Webhook')
-  }*/
-
   const requestSignature = req.header('X-Hub-Signature')
+
+  console.log('Request Signature: ', requestSignature);
+  console.log('Webhook Secret: ', WEBHOOK_SECRET);
+
   const hmac = crypto.createHmac('sha1', WEBHOOK_SECRET)
+  console.log('Request Body: ', req.body)
+  console.log('Request Body Type: ', typeof(req.body))
   const webhookDigest = hmac.update(req.body).digest('hex')
   const computedSignature = `sha1=${webhookDigest}`
-  console.log('Optimizely Secure Webhook Request Signature :', requestSignature)
-  console.log('Optimizely Secure Webhook Computed Signature :', computedSignature)
 
-  if (computedSignature === requestSignature) {
-    console.log('TODO implement datafile updating');
-    res.sendStatus(200)
-  } else {
+  console.log('Computed Signature: ', computedSignature);
+  if (computedSignature !== requestSignature) {
     res.status(500).send('Webhook payload determined not secure')
+  } else {
+    // Update Datafile
+    console.log('TODO implement datafile updating');
   }
 }
 
@@ -149,6 +150,6 @@ function isRouteEnabled(featureKey, onRouteDisabled) {
 
 
 module.exports = optimizely
-module.exports.datafileRoute = datafileRoute
 module.exports.webhookRoute = webhookRoute
+module.exports.datafileRoute = datafileRoute
 module.exports.isRouteEnabled = isRouteEnabled

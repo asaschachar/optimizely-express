@@ -1,6 +1,6 @@
 {
   "name": "optimizely-express",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Express middleware for Optimizely",
   "main": "index.js",
   "scripts": {
