@@ -10,6 +10,7 @@ npm install --save https://github.com/asaschachar/optimizely-express.git#master
 var optimizely = require('optimizely-express');
 app.use(optimizely({ sdkKey: 'CZsVVgn6j9ce6fNPt2ZEiB' }));
 app.use('/optimizely', optimizely.datafileRoute);
+app.use('/optimizely_webhook', bodyParser.text({ type: '*/*' }), optimizely.webhookRoute);
 
 
 const permissionDenied = function(req, res, next) => { res.sendStatus(403) }
