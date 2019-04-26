@@ -81,8 +81,7 @@ function datafileRoute(req, res, next) {
 }
 
 /**
- * 
- 
+ * webhookRoute
  *
  * Provides a route that exposes the contents of the datafile currently loaded in your application
  *
@@ -97,7 +96,7 @@ function webhookRoute(req, res, next) {
     console.error('Webhook secret not found in environment variables, please set OPTIMIZELY_WEBHOOK_SECRET')
     res.status(500).send('Webhook secret not found')
   }
-  
+
   if (typeof(req.body) !== 'string') {
     console.error(`Optimizely Webhook Route Error: Request body was not parsed as string for this route. Please update the route so that the req.body is parsed as a string. See README.md of Optimizely express middleware`);
     res.status(500).send('Optimizely Webhook request object not parsed as string. Unable to verify secure Webhook')
@@ -107,11 +106,13 @@ function webhookRoute(req, res, next) {
   const hmac = crypto.createHmac('sha1', WEBHOOK_SECRET)
   const webhookDigest = hmac.update(req.body).digest('hex')
   const computedSignature = `sha1=${webhookDigest}`
+  console.log('Optimizely Secure Webhook Request Signature :', requestSignature)
+  console.log('Optimizely Secure Webhook Computed Signature :', computedSignature)
 
-  if (computedSignature !== requestSignature) {
-    res.status(500).send('Webhook payload determined not secure')
-  } else {
+  if (computedSignature === requestSignature) {
     console.log('TODO implement datafile updating');
+  } else {
+    res.status(500).send('Webhook payload determined not secure')
   }
 }
 

@@ -2,7 +2,7 @@
 
 ### Installation
 ```javascript
-npm install --save https://github.com/asaschachar/optimizely-express.git#master
+npm install --save https://github.com/asaschachar/optimizely-express.git#1.0.1
 ```
 
 ### Usage
