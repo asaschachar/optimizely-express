@@ -116,6 +116,7 @@ function webhookRoute(req, res, next) {
     res.status(500).send('Webhook payload determined not secure')
   } else {
     console.log('DATAFILE UPDATE SECURE WEBHOOK RECIEVED');
+    res.sendStatus(200)
   }
 }
 
