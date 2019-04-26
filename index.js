@@ -93,14 +93,15 @@ function webhookRoute(req, res, next) {
   const WEBHOOK_SECRET = process.env.OPTIMIZELY_WEBHOOK_SECRET
 
   if (!WEBHOOK_SECRET) {
-    console.error('Webhook secret not found in environment variables, please set OPTIMIZELY_WEBHOOK_SECRET')
+    console.log('Webhook secret not found in environment variables, please set OPTIMIZELY_WEBHOOK_SECRET')
     res.status(500).send('Webhook secret not found')
   }
 
+  /*
   if (typeof(req.body) !== 'string') {
-    console.error(`Optimizely Webhook Route Error: Request body was not parsed as string for this route. Please update the route so that the req.body is parsed as a string. See README.md of Optimizely express middleware`);
+    console.log(`Optimizely Webhook Route Error: Request body was not parsed as string for this route. Please update the route so that the req.body is parsed as a string. See README.md of Optimizely express middleware`);
     res.status(500).send('Optimizely Webhook request object not parsed as string. Unable to verify secure Webhook')
-  }
+  }*/
 
   const requestSignature = req.header('X-Hub-Signature')
   const hmac = crypto.createHmac('sha1', WEBHOOK_SECRET)
